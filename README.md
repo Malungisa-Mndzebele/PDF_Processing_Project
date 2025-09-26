@@ -1,6 +1,16 @@
 # 📸 PDF Processing Project - Complete Image Collection
 
-A comprehensive web application for viewing and browsing all 476 images extracted from a PDF document, featuring an interactive image gallery with advanced filtering and search capabilities.
+A comprehensive web application for viewing and browsing all 476 images extracted from PDF documents related to Jeffrey Epstein's birthday book collection, featuring an interactive image gallery with advanced filtering and search capabilities.
+
+## 📚 Source Information
+
+**Document Source:** This collection contains images extracted from PDF documents related to Jeffrey Epstein's birthday book collection.
+
+**Original Documents:** [Google Drive Folder - Request Documents](https://drive.google.com/drive/folders/1ZSVpXEhI7gKI0zatJdYe6QhKJ5pjUo4b)
+
+**Background Information:** [PBS NewsHour - Epstein Birthday Book Coverage](https://www.pbs.org/newshour/nation/see-epsteins-full-birthday-book-with-alleged-personal-messages-from-trump-clinton-and-others)
+
+**Note:** These documents were released by the House Oversight Committee and are part of the public record.
 
 ## 🎯 Project Overview
 
