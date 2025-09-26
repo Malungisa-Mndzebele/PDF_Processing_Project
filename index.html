@@ -46,11 +46,7 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: 
-                linear-gradient(135deg, rgba(99, 102, 241, 0.8) 0%, rgba(139, 92, 246, 0.8) 50%, rgba(6, 182, 212, 0.8) 100%),
-                url('pdf_images/page_001.png') center/cover no-repeat,
-                linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 50%, var(--accent-color) 100%);
-            background-attachment: fixed;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 50%, var(--accent-color) 100%);
             min-height: 100vh;
             color: var(--text-primary);
             line-height: 1.6;
@@ -58,22 +54,34 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             position: relative;
-            transition: background-image 2s ease-in-out;
+            overflow-x: hidden;
         }
 
-        body::before {
-            content: '';
+        .image-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            z-index: -2;
+            opacity: 0.3;
+            background-size: 200px 200px;
+            background-repeat: repeat;
+            background-attachment: fixed;
+        }
+
+        .image-canvas::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: 
-                radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(6, 182, 212, 0.2) 0%, transparent 50%);
+                radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(6, 182, 212, 0.3) 0%, transparent 50%);
             pointer-events: none;
-            z-index: -1;
         }
 
         .header {
@@ -670,6 +678,7 @@
     </style>
 </head>
 <body>
+    <div class="image-canvas" id="imageCanvas"></div>
     <div class="header">
         <h1>🎂 The Birthday Book 🎂</h1>
         <p>🖼️ Interactive PDF Image Gallery 🖼️</p>
@@ -731,9 +740,10 @@
         <input type="text" class="search-box" placeholder="🔍 Search for specific page numbers..." id="searchInput" onkeyup="searchImages()">
 
         <div class="background-controls">
-            <button class="control-btn" onclick="toggleBackgroundRotation()" id="backgroundToggle" title="Toggle Background Rotation">🎨</button>
-            <button class="control-btn" onclick="selectRandomBackground()" title="Random Background">🎲</button>
-            <button class="control-btn" onclick="resetBackground()" title="Reset Background">🔄</button>
+            <button class="control-btn" onclick="toggleCanvasOpacity()" id="canvasToggle" title="Toggle Canvas Visibility">👁️</button>
+            <button class="control-btn" onclick="changeCanvasSize()" title="Change Canvas Size">📐</button>
+            <button class="control-btn" onclick="shuffleCanvas()" title="Shuffle Canvas">🔀</button>
+            <button class="control-btn" onclick="resetCanvas()" title="Reset Canvas">🔄</button>
         </div>
 
         <div class="image-counter">
@@ -1117,83 +1127,122 @@
             }
         });
 
-        // Dynamic background functionality
-        let backgroundImages = [];
-        let currentBackgroundIndex = 0;
-        let backgroundRotationActive = true;
-        let backgroundRotationInterval;
+        // Image Canvas functionality
+        let canvasImages = [];
+        let currentCanvasSize = 200;
+        let canvasVisible = true;
+        let canvasSizes = [100, 150, 200, 250, 300];
+        let currentSizeIndex = 2;
 
-        function initializeBackgroundImages() {
-            // Create array of background images (using some of the page images)
-            for (let i = 1; i <= 20; i++) {
+        function initializeImageCanvas() {
+            // Create array of ALL images for the canvas
+            canvasImages = [];
+            
+            // Add all page images
+            for (let i = 1; i <= 238; i++) {
                 const pageNum = i.toString().padStart(3, '0');
-                backgroundImages.push(`pdf_images/page_${pageNum}.png`);
+                canvasImages.push(`pdf_images/page_${pageNum}.png`);
             }
             
-            // Start background rotation
-            startBackgroundRotation();
-        }
-
-        function setBackgroundImage(imagePath) {
-            document.body.style.backgroundImage = `
-                linear-gradient(135deg, rgba(99, 102, 241, 0.8) 0%, rgba(139, 92, 246, 0.8) 50%, rgba(6, 182, 212, 0.8) 100%),
-                url('${imagePath}') center/cover no-repeat,
-                linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 50%, var(--accent-color) 100%)
-            `;
-        }
-
-        function rotateBackground() {
-            if (backgroundImages.length > 0 && backgroundRotationActive) {
-                const nextImage = backgroundImages[currentBackgroundIndex];
-                setBackgroundImage(nextImage);
-                currentBackgroundIndex = (currentBackgroundIndex + 1) % backgroundImages.length;
-            }
-        }
-
-        function startBackgroundRotation() {
-            if (backgroundRotationInterval) {
-                clearInterval(backgroundRotationInterval);
+            // Add all embedded images
+            for (let i = 1; i <= 238; i++) {
+                const pageNum = i.toString().padStart(3, '0');
+                canvasImages.push(`pdf_images/page_${pageNum}_img_1.png`);
             }
             
-            if (backgroundRotationActive) {
-                rotateBackground(); // Set initial background
-                backgroundRotationInterval = setInterval(rotateBackground, 10000); // Change every 10 seconds
+            // Shuffle the array for random distribution
+            shuffleArray(canvasImages);
+            
+            // Create the canvas background
+            createImageCanvas();
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
             }
         }
 
-        function toggleBackgroundRotation() {
-            backgroundRotationActive = !backgroundRotationActive;
-            const toggleBtn = document.getElementById('backgroundToggle');
+        function createImageCanvas() {
+            const canvas = document.getElementById('imageCanvas');
+            const canvasSize = currentCanvasSize;
             
-            if (backgroundRotationActive) {
+            // Create a large grid of images
+            let backgroundImage = '';
+            let imagesPerRow = Math.ceil(window.innerWidth / canvasSize) + 2;
+            let imagesPerCol = Math.ceil(window.innerHeight / canvasSize) + 2;
+            let totalImages = imagesPerRow * imagesPerCol;
+            
+            for (let i = 0; i < totalImages; i++) {
+                const imageIndex = i % canvasImages.length;
+                const x = (i % imagesPerRow) * canvasSize;
+                const y = Math.floor(i / imagesPerRow) * canvasSize;
+                
+                backgroundImage += `url('${canvasImages[imageIndex]}') ${x}px ${y}px, `;
+            }
+            
+            // Remove the last comma and space
+            backgroundImage = backgroundImage.slice(0, -2);
+            
+            canvas.style.backgroundImage = backgroundImage;
+            canvas.style.backgroundSize = `${canvasSize}px ${canvasSize}px`;
+        }
+
+        function toggleCanvasOpacity() {
+            const canvas = document.getElementById('imageCanvas');
+            const toggleBtn = document.getElementById('canvasToggle');
+            
+            canvasVisible = !canvasVisible;
+            
+            if (canvasVisible) {
+                canvas.style.opacity = '0.3';
                 toggleBtn.classList.add('active');
-                startBackgroundRotation();
             } else {
+                canvas.style.opacity = '0';
                 toggleBtn.classList.remove('active');
-                if (backgroundRotationInterval) {
-                    clearInterval(backgroundRotationInterval);
-                }
             }
         }
 
-        function selectRandomBackground() {
-            if (backgroundImages.length > 0) {
-                const randomIndex = Math.floor(Math.random() * backgroundImages.length);
-                const randomImage = backgroundImages[randomIndex];
-                setBackgroundImage(randomImage);
-                currentBackgroundIndex = randomIndex;
-            }
+        function changeCanvasSize() {
+            currentSizeIndex = (currentSizeIndex + 1) % canvasSizes.length;
+            currentCanvasSize = canvasSizes[currentSizeIndex];
+            createImageCanvas();
         }
 
-        function resetBackground() {
-            setBackgroundImage('pdf_images/page_001.png');
-            currentBackgroundIndex = 0;
+        function shuffleCanvas() {
+            shuffleArray(canvasImages);
+            createImageCanvas();
         }
+
+        function resetCanvas() {
+            // Reset to original order
+            canvasImages = [];
+            
+            // Add all page images in order
+            for (let i = 1; i <= 238; i++) {
+                const pageNum = i.toString().padStart(3, '0');
+                canvasImages.push(`pdf_images/page_${pageNum}.png`);
+            }
+            
+            // Add all embedded images in order
+            for (let i = 1; i <= 238; i++) {
+                const pageNum = i.toString().padStart(3, '0');
+                canvasImages.push(`pdf_images/page_${pageNum}_img_1.png`);
+            }
+            
+            createImageCanvas();
+        }
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            setTimeout(createImageCanvas, 100);
+        });
 
         // Load images when page loads
         window.onload = function() {
             loadImages();
-            initializeBackgroundImages();
+            initializeImageCanvas();
         };
     </script>
 </body>
