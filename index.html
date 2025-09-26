@@ -46,7 +46,7 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 50%, var(--accent-color) 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             color: var(--text-primary);
             line-height: 1.6;
@@ -57,43 +57,120 @@
             overflow-x: hidden;
         }
 
-        .image-canvas {
+        body::before {
+            content: '';
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -2;
-            opacity: 0.3;
-            background-size: 200px 200px;
-            background-repeat: repeat;
-            background-attachment: fixed;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+            animation: backgroundShift 20s ease-in-out infinite;
+            z-index: -1;
         }
 
-        .image-canvas::before {
-            content: '';
-            position: absolute;
+        @keyframes backgroundShift {
+            0%, 100% { 
+                background: 
+                    radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                    radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+            }
+            33% { 
+                background: 
+                    radial-gradient(circle at 60% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                    radial-gradient(circle at 20% 60%, rgba(120, 219, 255, 0.3) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 80%, rgba(120, 119, 198, 0.2) 0%, transparent 50%);
+            }
+            66% { 
+                background: 
+                    radial-gradient(circle at 80% 40%, rgba(120, 219, 255, 0.3) 0%, transparent 50%),
+                    radial-gradient(circle at 40% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                    radial-gradient(circle at 20% 20%, rgba(255, 119, 198, 0.2) 0%, transparent 50%);
+            }
+        }
+
+        .floating-shapes {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.4) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.4) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(6, 182, 212, 0.3) 0%, transparent 50%);
             pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float 15s ease-in-out infinite;
+        }
+
+        .floating-shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-shape:nth-child(2) {
+            width: 120px;
+            height: 120px;
+            top: 60%;
+            left: 80%;
+            animation-delay: 3s;
+        }
+
+        .floating-shape:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            top: 80%;
+            left: 20%;
+            animation-delay: 6s;
+        }
+
+        .floating-shape:nth-child(4) {
+            width: 100px;
+            height: 100px;
+            top: 10%;
+            left: 70%;
+            animation-delay: 9s;
+        }
+
+        .floating-shape:nth-child(5) {
+            width: 140px;
+            height: 140px;
+            top: 40%;
+            left: 5%;
+            animation-delay: 12s;
+        }
+
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0.1;
+            }
+            50% { 
+                transform: translateY(-30px) rotate(180deg);
+                opacity: 0.3;
+            }
         }
 
         .header {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(30px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid rgba(0, 0, 0, 0.15);
+            color: var(--text-primary);
             padding: 3rem 0;
             text-align: center;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
         }
 
         .header::before {
@@ -116,22 +193,31 @@
             font-size: clamp(2.5rem, 5vw, 4rem);
             font-weight: 700;
             margin-bottom: 1rem;
-            background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
             letter-spacing: -0.02em;
             position: relative;
             z-index: 1;
         }
 
+        .header h1 .text-part {
+            background: linear-gradient(135deg, #2d3436 0%, #636e72 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        }
+
         .header p {
             font-size: 1.125rem;
-            font-weight: 400;
-            opacity: 0.9;
+            font-weight: 500;
             margin-bottom: 0.5rem;
             position: relative;
             z-index: 1;
+        }
+
+        .header p .text-part {
+            color: #2d3436;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
 
         .container {
@@ -143,14 +229,14 @@
         }
 
         .source-attribution {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(20px);
             border-radius: var(--radius-xl);
             padding: 2rem;
             margin: 2rem 0;
             text-align: left;
-            box-shadow: var(--shadow-xl);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            border: 2px solid rgba(0, 0, 0, 0.1);
             border-left: 4px solid var(--primary-color);
             transition: all 0.3s ease;
         }
@@ -161,48 +247,53 @@
         }
 
         .source-attribution h2 {
-            color: var(--text-primary);
+            color: #2d3436;
             margin-bottom: 1rem;
             text-align: center;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 1.5rem;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
 
         .source-attribution p {
             margin-bottom: 0.8rem;
             line-height: 1.6;
-            color: var(--text-secondary);
-            font-size: 0.95rem;
+            color: #2d3436;
+            font-size: 1rem;
+            font-weight: 500;
         }
 
         .source-attribution a {
-            color: var(--primary-color);
+            color: #6366f1;
             text-decoration: none;
-            font-weight: 500;
+            font-weight: 600;
             transition: all 0.3s ease;
-            border-bottom: 1px solid transparent;
+            border-bottom: 2px solid transparent;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
 
         .source-attribution a:hover {
-            color: var(--secondary-color);
-            border-bottom-color: var(--secondary-color);
+            color: #4f46e5;
+            border-bottom-color: #4f46e5;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .historical-context {
             margin-top: 1.5rem;
             padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
             border-radius: var(--radius-lg);
             border-left: 4px solid var(--accent-color);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(0, 0, 0, 0.1);
         }
 
         .historical-context h3 {
-            color: var(--text-primary);
+            color: #2d3436;
             margin-bottom: 1rem;
             font-size: 1.25rem;
-            font-weight: 600;
+            font-weight: 700;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
 
         .historical-context ul {
@@ -213,18 +304,19 @@
         .historical-context li {
             margin-bottom: 0.5rem;
             line-height: 1.6;
-            color: var(--text-secondary);
+            color: #2d3436;
+            font-weight: 500;
         }
 
         .stats-bar {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(20px);
             border-radius: var(--radius-xl);
             padding: 2rem;
             margin: 2rem 0;
             text-align: center;
-            box-shadow: var(--shadow-xl);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            border: 2px solid rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
         }
 
@@ -298,19 +390,20 @@
         }
 
         .filter-btn {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
-            color: var(--text-primary);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #2d3436;
+            border: 2px solid rgba(0, 0, 0, 0.1);
             padding: 0.75rem 1.5rem;
             border-radius: var(--radius-lg);
             cursor: pointer;
-            font-size: 0.95rem;
-            font-weight: 500;
+            font-size: 1rem;
+            font-weight: 600;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: var(--shadow-md);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             position: relative;
             overflow: hidden;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
 
         .filter-btn::before {
@@ -330,15 +423,17 @@
 
         .filter-btn:hover {
             transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
             background: rgba(255, 255, 255, 1);
+            border-color: rgba(0, 0, 0, 0.2);
         }
 
         .filter-btn.active {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
             color: white;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         .image-grid {
@@ -349,12 +444,12 @@
         }
 
         .image-card {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(20px);
             border-radius: var(--radius-xl);
             overflow: hidden;
-            box-shadow: var(--shadow-lg);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            border: 2px solid rgba(0, 0, 0, 0.1);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
             position: relative;
@@ -405,15 +500,17 @@
 
         .image-title {
             font-size: 1.125rem;
-            font-weight: 600;
-            color: var(--text-primary);
+            font-weight: 700;
+            color: #2d3436;
             margin-bottom: 0.5rem;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
 
         .image-description {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
+            color: #2d3436;
+            font-size: 1rem;
             line-height: 1.5;
+            font-weight: 500;
         }
 
         .modal {
@@ -550,28 +647,31 @@
             width: 100%;
             max-width: 500px;
             padding: 1rem 1.5rem;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(0, 0, 0, 0.1);
             border-radius: var(--radius-lg);
             font-size: 1rem;
             margin: 1rem auto;
             display: block;
             text-align: center;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
-            box-shadow: var(--shadow-md);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             transition: all 0.3s ease;
             font-family: inherit;
+            font-weight: 500;
+            color: #2d3436;
         }
 
         .search-box:focus {
             outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
             background: rgba(255, 255, 255, 1);
         }
 
         .search-box::placeholder {
-            color: var(--text-muted);
+            color: #636e72;
+            font-weight: 500;
         }
 
         .background-controls {
@@ -583,43 +683,47 @@
         }
 
         .background-controls .control-btn {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
-            color: var(--text-primary);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #2d3436;
+            border: 2px solid rgba(0, 0, 0, 0.1);
             padding: 0.75rem 1rem;
             border-radius: var(--radius-lg);
             cursor: pointer;
             font-size: 1.1rem;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: var(--shadow-md);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             min-width: 50px;
+            font-weight: 600;
         }
 
         .background-controls .control-btn:hover {
             transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
             background: rgba(255, 255, 255, 1);
+            border-color: rgba(0, 0, 0, 0.2);
         }
 
         .background-controls .control-btn.active {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
             color: white;
-            border-color: var(--primary-color);
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
         }
 
         .image-counter {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             padding: 1rem 1.5rem;
             border-radius: var(--radius-lg);
             text-align: center;
             margin: 1rem 0;
             font-size: 1rem;
-            font-weight: 500;
-            color: var(--text-primary);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: var(--shadow-md);
+            font-weight: 600;
+            color: #2d3436;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
 
         @media (max-width: 768px) {
@@ -678,12 +782,18 @@
     </style>
 </head>
 <body>
-    <div class="image-canvas" id="imageCanvas"></div>
-    <div class="header">
-        <h1>🎂 The Birthday Book 🎂</h1>
-        <p>🖼️ Interactive PDF Image Gallery 🖼️</p>
-        <p>📚 All 476 Images from Document Processing 📚</p>
+    <div class="floating-shapes">
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
+        <div class="floating-shape"></div>
     </div>
+        <div class="header">
+            <h1>🎂<span class="text-part"> The Birthday Book </span>🎂</h1>
+            <p>🖼️<span class="text-part"> Interactive PDF Image Gallery </span>🖼️</p>
+            <p>📚<span class="text-part"> All 476 Images from Document Processing </span>📚</p>
+        </div>
 
     <div class="container">
         <div class="source-attribution">
@@ -740,10 +850,10 @@
         <input type="text" class="search-box" placeholder="🔍 Search for specific page numbers..." id="searchInput" onkeyup="searchImages()">
 
         <div class="background-controls">
-            <button class="control-btn" onclick="toggleCanvasOpacity()" id="canvasToggle" title="Toggle Canvas Visibility">👁️</button>
-            <button class="control-btn" onclick="changeCanvasSize()" title="Change Canvas Size">📐</button>
-            <button class="control-btn" onclick="shuffleCanvas()" title="Shuffle Canvas">🔀</button>
-            <button class="control-btn" onclick="resetCanvas()" title="Reset Canvas">🔄</button>
+            <button class="control-btn" onclick="toggleAnimations()" id="animationToggle" title="Toggle Animations">✨</button>
+            <button class="control-btn" onclick="changeBackgroundTheme()" title="Change Theme">🎨</button>
+            <button class="control-btn" onclick="toggleShapes()" title="Toggle Floating Shapes">🔮</button>
+            <button class="control-btn" onclick="randomizeBackground()" title="Randomize Background">🎲</button>
         </div>
 
         <div class="image-counter">
@@ -1127,122 +1237,116 @@
             }
         });
 
-        // Image Canvas functionality
-        let canvasImages = [];
-        let currentCanvasSize = 200;
-        let canvasVisible = true;
-        let canvasSizes = [100, 150, 200, 250, 300];
-        let currentSizeIndex = 2;
-
-        function initializeImageCanvas() {
-            // Create array of ALL images for the canvas
-            canvasImages = [];
-            
-            // Add all page images
-            for (let i = 1; i <= 238; i++) {
-                const pageNum = i.toString().padStart(3, '0');
-                canvasImages.push(`pdf_images/page_${pageNum}.png`);
+        // Background Animation Controls
+        let animationsEnabled = true;
+        let shapesVisible = true;
+        let currentTheme = 0;
+        const themes = [
+            {
+                name: 'Purple Dream',
+                gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                colors: ['rgba(120, 119, 198, 0.3)', 'rgba(255, 119, 198, 0.3)', 'rgba(120, 219, 255, 0.2)']
+            },
+            {
+                name: 'Ocean Breeze',
+                gradient: 'linear-gradient(135deg, #74b9ff 0%, #0984e3 100%)',
+                colors: ['rgba(116, 185, 255, 0.3)', 'rgba(9, 132, 227, 0.3)', 'rgba(129, 236, 236, 0.2)']
+            },
+            {
+                name: 'Sunset Glow',
+                gradient: 'linear-gradient(135deg, #fd79a8 0%, #e84393 100%)',
+                colors: ['rgba(253, 121, 168, 0.3)', 'rgba(232, 67, 147, 0.3)', 'rgba(255, 195, 113, 0.2)']
+            },
+            {
+                name: 'Forest Deep',
+                gradient: 'linear-gradient(135deg, #00b894 0%, #00a085 100%)',
+                colors: ['rgba(0, 184, 148, 0.3)', 'rgba(0, 160, 133, 0.3)', 'rgba(116, 185, 255, 0.2)']
+            },
+            {
+                name: 'Cosmic Night',
+                gradient: 'linear-gradient(135deg, #2d3436 0%, #636e72 100%)',
+                colors: ['rgba(45, 52, 54, 0.3)', 'rgba(99, 110, 114, 0.3)', 'rgba(116, 185, 255, 0.2)']
             }
-            
-            // Add all embedded images
-            for (let i = 1; i <= 238; i++) {
-                const pageNum = i.toString().padStart(3, '0');
-                canvasImages.push(`pdf_images/page_${pageNum}_img_1.png`);
-            }
-            
-            // Shuffle the array for random distribution
-            shuffleArray(canvasImages);
-            
-            // Create the canvas background
-            createImageCanvas();
-        }
+        ];
 
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-        }
-
-        function createImageCanvas() {
-            const canvas = document.getElementById('imageCanvas');
-            const canvasSize = currentCanvasSize;
+        function toggleAnimations() {
+            animationsEnabled = !animationsEnabled;
+            const toggleBtn = document.getElementById('animationToggle');
+            const body = document.body;
             
-            // Create a large grid of images
-            let backgroundImage = '';
-            let imagesPerRow = Math.ceil(window.innerWidth / canvasSize) + 2;
-            let imagesPerCol = Math.ceil(window.innerHeight / canvasSize) + 2;
-            let totalImages = imagesPerRow * imagesPerCol;
-            
-            for (let i = 0; i < totalImages; i++) {
-                const imageIndex = i % canvasImages.length;
-                const x = (i % imagesPerRow) * canvasSize;
-                const y = Math.floor(i / imagesPerRow) * canvasSize;
-                
-                backgroundImage += `url('${canvasImages[imageIndex]}') ${x}px ${y}px, `;
-            }
-            
-            // Remove the last comma and space
-            backgroundImage = backgroundImage.slice(0, -2);
-            
-            canvas.style.backgroundImage = backgroundImage;
-            canvas.style.backgroundSize = `${canvasSize}px ${canvasSize}px`;
-        }
-
-        function toggleCanvasOpacity() {
-            const canvas = document.getElementById('imageCanvas');
-            const toggleBtn = document.getElementById('canvasToggle');
-            
-            canvasVisible = !canvasVisible;
-            
-            if (canvasVisible) {
-                canvas.style.opacity = '0.3';
+            if (animationsEnabled) {
+                body.style.animationPlayState = 'running';
                 toggleBtn.classList.add('active');
             } else {
-                canvas.style.opacity = '0';
+                body.style.animationPlayState = 'paused';
                 toggleBtn.classList.remove('active');
             }
         }
 
-        function changeCanvasSize() {
-            currentSizeIndex = (currentSizeIndex + 1) % canvasSizes.length;
-            currentCanvasSize = canvasSizes[currentSizeIndex];
-            createImageCanvas();
-        }
-
-        function shuffleCanvas() {
-            shuffleArray(canvasImages);
-            createImageCanvas();
-        }
-
-        function resetCanvas() {
-            // Reset to original order
-            canvasImages = [];
+        function changeBackgroundTheme() {
+            currentTheme = (currentTheme + 1) % themes.length;
+            const theme = themes[currentTheme];
+            const body = document.body;
             
-            // Add all page images in order
-            for (let i = 1; i <= 238; i++) {
-                const pageNum = i.toString().padStart(3, '0');
-                canvasImages.push(`pdf_images/page_${pageNum}.png`);
+            body.style.background = theme.gradient;
+            
+            // Update the animated background
+            const style = document.createElement('style');
+            style.textContent = `
+                body::before {
+                    background: 
+                        radial-gradient(circle at 20% 80%, ${theme.colors[0]} 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, ${theme.colors[1]} 0%, transparent 50%),
+                        radial-gradient(circle at 40% 40%, ${theme.colors[2]} 0%, transparent 50%);
+                }
+            `;
+            
+            // Remove old theme styles
+            const oldStyle = document.getElementById('theme-style');
+            if (oldStyle) oldStyle.remove();
+            
+            style.id = 'theme-style';
+            document.head.appendChild(style);
+        }
+
+        function toggleShapes() {
+            shapesVisible = !shapesVisible;
+            const shapes = document.querySelector('.floating-shapes');
+            const toggleBtn = document.querySelector('[onclick="toggleShapes()"]');
+            
+            if (shapesVisible) {
+                shapes.style.display = 'block';
+                toggleBtn.classList.add('active');
+            } else {
+                shapes.style.display = 'none';
+                toggleBtn.classList.remove('active');
             }
-            
-            // Add all embedded images in order
-            for (let i = 1; i <= 238; i++) {
-                const pageNum = i.toString().padStart(3, '0');
-                canvasImages.push(`pdf_images/page_${pageNum}_img_1.png`);
-            }
-            
-            createImageCanvas();
         }
 
-        // Handle window resize
-        window.addEventListener('resize', function() {
-            setTimeout(createImageCanvas, 100);
-        });
+        function randomizeBackground() {
+            // Randomize floating shapes positions
+            const shapes = document.querySelectorAll('.floating-shape');
+            shapes.forEach((shape, index) => {
+                const randomTop = Math.random() * 80 + 10; // 10% to 90%
+                const randomLeft = Math.random() * 80 + 10; // 10% to 90%
+                const randomSize = Math.random() * 80 + 60; // 60px to 140px
+                
+                shape.style.top = randomTop + '%';
+                shape.style.left = randomLeft + '%';
+                shape.style.width = randomSize + 'px';
+                shape.style.height = randomSize + 'px';
+                shape.style.animationDelay = Math.random() * 15 + 's';
+            });
+            
+            // Randomize theme
+            const randomTheme = Math.floor(Math.random() * themes.length);
+            currentTheme = randomTheme;
+            changeBackgroundTheme();
+        }
 
         // Load images when page loads
         window.onload = function() {
             loadImages();
-            initializeImageCanvas();
         };
     </script>
 </body>
