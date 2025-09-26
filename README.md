@@ -1,6 +1,10 @@
-# 📸 PDF Processing Project - Complete Image Collection
+# 🎂 The Birthday Book - Interactive PDF Gallery
 
 A comprehensive web application for viewing and browsing all 476 images extracted from PDF documents related to Jeffrey Epstein's birthday book collection, featuring an interactive image gallery with advanced filtering and search capabilities.
+
+## 🌐 Live Website
+
+**Visit the live gallery:** [https://khasinogaming.com/birthdaybook](https://khasinogaming.com/birthdaybook)
 
 ## 📚 Source Information
 
@@ -14,10 +18,11 @@ A comprehensive web application for viewing and browsing all 476 images extracte
 
 ## 🎯 Project Overview
 
-This project processes a PDF document and creates an interactive web interface to view all extracted images. The website displays:
-- **238 Page Images** - Full page scans from the PDF
-- **238 Embedded Images** - Photos and graphics found within the document
+This project processes PDF documents from Jeffrey Epstein's birthday book collection and creates an interactive web interface to view all extracted images. The website displays:
+- **238 Page Images** - Full page scans from the PDF documents
+- **238 Embedded Images** - Photos and graphics found within the documents
 - **Total: 476 Images** - Complete collection in one place
+- **Historical Context** - Documents released by the House Oversight Committee
 
 ## 🚀 Features
 
@@ -82,12 +87,18 @@ PDF_Processing_Project/
 
 ## 🚀 Getting Started
 
-### Prerequisites
+### 🌐 View the Live Gallery
+**The easiest way to view the collection is through the live website:**
+- **Live Gallery:** [https://khasinogaming.com/birthdaybook](https://khasinogaming.com/birthdaybook)
+
+### 💻 Local Development
+
+#### Prerequisites
 - Python 3.7+
 - Tesseract OCR (for text extraction)
 - Modern web browser
 
-### Installation
+#### Installation
 1. Clone the repository:
    ```bash
    git clone <repository-url>
@@ -104,16 +115,16 @@ PDF_Processing_Project/
    - macOS: `brew install tesseract`
    - Linux: `sudo apt-get install tesseract-ocr`
 
-### Usage
+#### Usage
 
-#### View the Image Collection
+##### View the Image Collection Locally
 1. Open `index.html` in your web browser
 2. Browse through all 476 images
 3. Use filters to view specific image types
 4. Search for specific pages
 5. Click images to view full-size
 
-#### Process PDF Documents
+##### Process PDF Documents
 1. Place your PDF file in the project directory
 2. Update the file path in the Python scripts
 3. Run the processing scripts:
@@ -172,6 +183,18 @@ PDF_Processing_Project/
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
+## 🚀 Deployment
+
+This project is automatically deployed to [https://khasinogaming.com/birthdaybook](https://khasinogaming.com/birthdaybook) using GitHub Actions CI/CD.
+
+### Deployment Features
+- **Automatic deployment** on push to main branch
+- **FTP deployment** to hosting server
+- **Performance optimizations** (compression, caching)
+- **Security headers** for better protection
+
+For deployment details, see [DEPLOYMENT.md](DEPLOYMENT.md) and [SETUP_INSTRUCTIONS.md](SETUP_INSTRUCTIONS.md).
+
 ## 📝 License
 
 This project is open source and available under the [MIT License](LICENSE).
@@ -181,6 +204,8 @@ This project is open source and available under the [MIT License](LICENSE).
 - **Tesseract OCR** - For text extraction capabilities
 - **PyMuPDF** - For PDF processing and image extraction
 - **Modern Web Standards** - For responsive design and interactivity
+- **House Oversight Committee** - For releasing the public documents
+- **PBS NewsHour** - For comprehensive coverage and context
 
 ## 📞 Support
 
@@ -191,4 +216,4 @@ If you encounter any issues or have questions:
 
 ---
 
-**Note**: This project processes PDF documents and extracts images for educational and research purposes. Please ensure you have appropriate permissions for any documents you process.
+**Note**: This project processes publicly released PDF documents from the House Oversight Committee and extracts images for educational and research purposes. All documents are part of the public record.
