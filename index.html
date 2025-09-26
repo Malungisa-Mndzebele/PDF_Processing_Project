@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📸 The Complete Image Collection - 476 Images 📸</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .header {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '📸';
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            font-size: 4rem;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .header::after {
+            content: '🖼️';
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 4rem;
+            animation: bounce 2s ease-in-out infinite reverse;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 4px 4px 8px rgba(0,0,0,0.5);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .header p {
+            font-size: 1.3rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .stats-bar {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .stat-item {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-10px) scale(1.05);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+
+        .filter-btn {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(45deg, #dc3545, #ff6b6b);
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4); }
+            50% { box-shadow: 0 5px 25px rgba(220, 53, 69, 0.8); }
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .image-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .image-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .image-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .image-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .image-info {
+            padding: 1.5rem;
+            background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+        }
+
+        .image-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2f3542;
+            margin-bottom: 0.5rem;
+        }
+
+        .image-description {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+            margin-top: 5%;
+            border-radius: 10px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover {
+            color: #ff6b6b;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .search-box {
+            width: 100%;
+            max-width: 500px;
+            padding: 1rem;
+            border: 3px solid #ff6b6b;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            margin: 1rem auto;
+            display: block;
+            text-align: center;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: #4ecdc4;
+            box-shadow: 0 5px 25px rgba(78, 205, 196, 0.3);
+        }
+
+        .image-counter {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 1rem;
+            border-radius: 15px;
+            text-align: center;
+            margin: 1rem 0;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2f3542;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .image-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1rem;
+            }
+            
+            .filter-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📸 The Complete Image Collection 📸</h1>
+        <p>🖼️ All 476 Images from the PDF Document 🖼️</p>
+        <p>📚 Every Page and Embedded Image in One Place 📚</p>
+    </div>
+
+    <div class="container">
+        <div class="stats-bar">
+            <h2>📊 Collection Statistics</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">476</div>
+                    <div class="stat-label">Total Images</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">238</div>
+                    <div class="stat-label">Page Images</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">238</div>
+                    <div class="stat-label">Embedded Images</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Complete Collection</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-buttons">
+            <button class="filter-btn active" onclick="filterImages('all')">🖼️ All Images</button>
+            <button class="filter-btn" onclick="filterImages('pages')">📄 Page Images</button>
+            <button class="filter-btn" onclick="filterImages('embedded')">🔗 Embedded Images</button>
+            <button class="filter-btn" onclick="filterImages('early')">📖 Early Pages (1-50)</button>
+            <button class="filter-btn" onclick="filterImages('middle')">📚 Middle Pages (51-150)</button>
+            <button class="filter-btn" onclick="filterImages('late')">📜 Late Pages (151-238)</button>
+        </div>
+
+        <input type="text" class="search-box" placeholder="🔍 Search for specific page numbers..." id="searchInput" onkeyup="searchImages()">
+
+        <div class="image-counter">
+            <span id="imageCount">Loading images...</span>
+        </div>
+
+        <div class="loading" id="loadingMessage">
+            🖼️ Loading all 476 images... This may take a moment! 🖼️
+        </div>
+
+        <div class="image-grid" id="imageGrid">
+            <!-- Images will be loaded here by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Modal for full-size image viewing -->
+    <div id="imageModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+
+    <script>
+        let allImages = [];
+        let filteredImages = [];
+        let currentFilter = 'all';
+
+        // Generate all image data
+        function generateImageData() {
+            const images = [];
+            
+            // Page images (page_001.png to page_238.png)
+            for (let i = 1; i <= 238; i++) {
+                const pageNum = i.toString().padStart(3, '0');
+                images.push({
+                    src: `pdf_images/page_${pageNum}.png`,
+                    title: `Page ${i}`,
+                    description: `Full page image from page ${i} of the document`,
+                    type: 'page',
+                    pageNumber: i,
+                    category: i <= 50 ? 'early' : i <= 150 ? 'middle' : 'late'
+                });
+            }
+            
+            // Embedded images (page_001_img_1.png to page_238_img_1.png)
+            for (let i = 1; i <= 238; i++) {
+                const pageNum = i.toString().padStart(3, '0');
+                images.push({
+                    src: `pdf_images/page_${pageNum}_img_1.png`,
+                    title: `Embedded Image from Page ${i}`,
+                    description: `Embedded image or photo found on page ${i}`,
+                    type: 'embedded',
+                    pageNumber: i,
+                    category: i <= 50 ? 'early' : i <= 150 ? 'middle' : 'late'
+                });
+            }
+            
+            return images;
+        }
+
+        // Load and display images
+        function loadImages() {
+            allImages = generateImageData();
+            filteredImages = [...allImages];
+            displayImages();
+            updateImageCount();
+            document.getElementById('loadingMessage').style.display = 'none';
+        }
+
+        // Display images in grid
+        function displayImages() {
+            const grid = document.getElementById('imageGrid');
+            grid.innerHTML = '';
+
+            filteredImages.forEach((image, index) => {
+                const card = document.createElement('div');
+                card.className = 'image-card';
+                card.onclick = () => openModal(image.src);
+                
+                card.innerHTML = `
+                    <img src="${image.src}" alt="${image.title}" loading="lazy" onerror="this.style.display='none'">
+                    <div class="image-info">
+                        <div class="image-title">${image.title}</div>
+                        <div class="image-description">${image.description}</div>
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+
+        // Filter images
+        function filterImages(filter) {
+            currentFilter = filter;
+            
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            switch(filter) {
+                case 'all':
+                    filteredImages = [...allImages];
+                    break;
+                case 'pages':
+                    filteredImages = allImages.filter(img => img.type === 'page');
+                    break;
+                case 'embedded':
+                    filteredImages = allImages.filter(img => img.type === 'embedded');
+                    break;
+                case 'early':
+                    filteredImages = allImages.filter(img => img.category === 'early');
+                    break;
+                case 'middle':
+                    filteredImages = allImages.filter(img => img.category === 'middle');
+                    break;
+                case 'late':
+                    filteredImages = allImages.filter(img => img.category === 'late');
+                    break;
+            }
+            
+            displayImages();
+            updateImageCount();
+        }
+
+        // Search images
+        function searchImages() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            if (searchTerm === '') {
+                filterImages(currentFilter);
+                return;
+            }
+            
+            filteredImages = allImages.filter(img => 
+                img.title.toLowerCase().includes(searchTerm) ||
+                img.description.toLowerCase().includes(searchTerm) ||
+                img.pageNumber.toString().includes(searchTerm)
+            );
+            
+            displayImages();
+            updateImageCount();
+        }
+
+        // Update image count
+        function updateImageCount() {
+            const count = filteredImages.length;
+            const total = allImages.length;
+            document.getElementById('imageCount').textContent = 
+                `Showing ${count} of ${total} images`;
+        }
+
+        // Open modal
+        function openModal(imageSrc) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            modal.style.display = 'block';
+            modalImg.src = imageSrc;
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('imageModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Load images when page loads
+        window.onload = function() {
+            loadImages();
+        };
+    </script>
+</body>
+</html>
