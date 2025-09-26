@@ -108,6 +108,30 @@
             text-decoration: underline;
         }
 
+        .historical-context {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 15px;
+            border-left: 4px solid #4ecdc4;
+        }
+
+        .historical-context h3 {
+            color: #2f3542;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .historical-context ul {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+
+        .historical-context li {
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
+        }
+
         .stats-bar {
             background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
@@ -253,14 +277,95 @@
             to { opacity: 1; }
         }
 
+        .modal-image-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
         .modal-content {
-            margin: auto;
-            display: block;
             max-width: 90%;
             max-height: 90%;
-            margin-top: 5%;
             border-radius: 10px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease;
+            cursor: grab;
+            user-select: none;
+        }
+
+        .modal-content:active {
+            cursor: grabbing;
+        }
+
+        .modal-navigation {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            pointer-events: none;
+            z-index: 1001;
+        }
+
+        .nav-btn {
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            font-size: 2rem;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            pointer-events: auto;
+            margin: 0 20px;
+        }
+
+        .nav-btn:hover {
+            background: rgba(0, 0, 0, 0.9);
+            transform: scale(1.1);
+        }
+
+        .modal-controls {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 1001;
+        }
+
+        .control-btn {
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .control-btn:hover {
+            background: rgba(0, 0, 0, 0.9);
+            transform: scale(1.05);
+        }
+
+        .image-info-modal {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 1rem;
+            z-index: 1001;
         }
 
         .close {
@@ -343,10 +448,22 @@
     <div class="container">
         <div class="source-attribution">
             <h2>📚 Source Information</h2>
-            <p><strong>Document Source:</strong> This collection contains images extracted from PDF documents related to Jeffrey Epstein's birthday book collection.</p>
+            <p><strong>Document Source:</strong> This collection contains images extracted from PDF documents related to Jeffrey Epstein's birthday book collection titled "The First Fifty Years."</p>
             <p><strong>Original Documents:</strong> <a href="https://drive.google.com/drive/folders/1ZSVpXEhI7gKI0zatJdYe6QhKJ5pjUo4b" target="_blank" rel="noopener">Google Drive Folder - Request Documents</a></p>
             <p><strong>Background Information:</strong> <a href="https://www.pbs.org/newshour/nation/see-epsteins-full-birthday-book-with-alleged-personal-messages-from-trump-clinton-and-others" target="_blank" rel="noopener">PBS NewsHour - Epstein Birthday Book Coverage</a></p>
-            <p><strong>Note:</strong> These documents were released by the House Oversight Committee and are part of the public record.</p>
+            
+            <div class="historical-context">
+                <h3>📖 Historical Context</h3>
+                <p>The bound volumes, titled "The First Fifty Years," were compiled in 2003 by former Epstein girlfriend and associate Ghislaine Maxwell. The collection includes:</p>
+                <ul>
+                    <li><strong>Personal notes and messages</strong> from various contributors</li>
+                    <li><strong>Alleged contributors</strong> including former President Bill Clinton, Alan Dershowitz, entrepreneur Leslie Wexner, and President Donald Trump</li>
+                    <li><strong>Crude drawings and images</strong> with sexual content or innuendo</li>
+                    <li><strong>Photographs and ephemera</strong> from Epstein's personal collection</li>
+                    <li><strong>Handwritten notes</strong> from Maxwell explaining the book's purpose</li>
+                </ul>
+                <p><strong>Note:</strong> These documents were released by the House Oversight Committee and are part of the public record. The Epstein estate delivered an electronic copy to the committee in September 2025.</p>
+            </div>
         </div>
 
         <div class="stats-bar">
@@ -398,13 +515,33 @@
     <!-- Modal for full-size image viewing -->
     <div id="imageModal" class="modal">
         <span class="close" onclick="closeModal()">&times;</span>
-        <img class="modal-content" id="modalImage">
+        <div class="modal-navigation">
+            <button class="nav-btn prev-btn" onclick="previousImage()" id="prevBtn">❮</button>
+            <button class="nav-btn next-btn" onclick="nextImage()" id="nextBtn">❯</button>
+        </div>
+        <div class="modal-controls">
+            <button class="control-btn" onclick="zoomIn()" title="Zoom In">🔍+</button>
+            <button class="control-btn" onclick="zoomOut()" title="Zoom Out">🔍-</button>
+            <button class="control-btn" onclick="resetZoom()" title="Reset Zoom">🔄</button>
+            <button class="control-btn" onclick="toggleFullscreen()" title="Fullscreen">⛶</button>
+        </div>
+        <div class="modal-image-container" id="modalImageContainer">
+            <img class="modal-content" id="modalImage">
+        </div>
+        <div class="image-info-modal">
+            <span id="currentImageInfo"></span>
+        </div>
     </div>
 
     <script>
         let allImages = [];
         let filteredImages = [];
         let currentFilter = 'all';
+        let currentImageIndex = 0;
+        let currentZoom = 1;
+        let isDragging = false;
+        let dragStart = { x: 0, y: 0 };
+        let imageOffset = { x: 0, y: 0 };
 
         // Generate all image data
         function generateImageData() {
@@ -534,13 +671,173 @@
         function openModal(imageSrc) {
             const modal = document.getElementById('imageModal');
             const modalImg = document.getElementById('modalImage');
+            
+            // Find the index of the current image in filtered images
+            currentImageIndex = filteredImages.findIndex(img => img.src === imageSrc);
+            
             modal.style.display = 'block';
             modalImg.src = imageSrc;
+            
+            // Reset zoom and position
+            currentZoom = 1;
+            imageOffset = { x: 0, y: 0 };
+            updateImageTransform();
+            updateImageInfo();
+            updateNavigationButtons();
+            
+            // Add event listeners for dragging
+            setupImageDragListeners();
         }
 
         // Close modal
         function closeModal() {
             document.getElementById('imageModal').style.display = 'none';
+            removeImageDragListeners();
+        }
+
+        // Navigation functions
+        function nextImage() {
+            if (currentImageIndex < filteredImages.length - 1) {
+                currentImageIndex++;
+                loadCurrentImage();
+            }
+        }
+
+        function previousImage() {
+            if (currentImageIndex > 0) {
+                currentImageIndex--;
+                loadCurrentImage();
+            }
+        }
+
+        function loadCurrentImage() {
+            const modalImg = document.getElementById('modalImage');
+            modalImg.src = filteredImages[currentImageIndex].src;
+            
+            // Reset zoom and position
+            currentZoom = 1;
+            imageOffset = { x: 0, y: 0 };
+            updateImageTransform();
+            updateImageInfo();
+            updateNavigationButtons();
+        }
+
+        // Zoom functions
+        function zoomIn() {
+            currentZoom = Math.min(currentZoom * 1.2, 5);
+            updateImageTransform();
+        }
+
+        function zoomOut() {
+            currentZoom = Math.max(currentZoom / 1.2, 0.5);
+            updateImageTransform();
+        }
+
+        function resetZoom() {
+            currentZoom = 1;
+            imageOffset = { x: 0, y: 0 };
+            updateImageTransform();
+        }
+
+        function updateImageTransform() {
+            const modalImg = document.getElementById('modalImage');
+            modalImg.style.transform = `scale(${currentZoom}) translate(${imageOffset.x}px, ${imageOffset.y}px)`;
+        }
+
+        // Navigation button updates
+        function updateNavigationButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            prevBtn.style.opacity = currentImageIndex > 0 ? '1' : '0.3';
+            nextBtn.style.opacity = currentImageIndex < filteredImages.length - 1 ? '1' : '0.3';
+        }
+
+        // Image info updates
+        function updateImageInfo() {
+            const currentImage = filteredImages[currentImageIndex];
+            const info = document.getElementById('currentImageInfo');
+            info.textContent = `${currentImageIndex + 1} of ${filteredImages.length} - ${currentImage.title}`;
+        }
+
+        // Drag functionality
+        function setupImageDragListeners() {
+            const modalImg = document.getElementById('modalImage');
+            
+            modalImg.addEventListener('mousedown', startDrag);
+            modalImg.addEventListener('mousemove', drag);
+            modalImg.addEventListener('mouseup', endDrag);
+            modalImg.addEventListener('mouseleave', endDrag);
+            
+            // Touch events for mobile
+            modalImg.addEventListener('touchstart', startDragTouch);
+            modalImg.addEventListener('touchmove', dragTouch);
+            modalImg.addEventListener('touchend', endDrag);
+        }
+
+        function removeImageDragListeners() {
+            const modalImg = document.getElementById('modalImage');
+            
+            modalImg.removeEventListener('mousedown', startDrag);
+            modalImg.removeEventListener('mousemove', drag);
+            modalImg.removeEventListener('mouseup', endDrag);
+            modalImg.removeEventListener('mouseleave', endDrag);
+            
+            modalImg.removeEventListener('touchstart', startDragTouch);
+            modalImg.removeEventListener('touchmove', dragTouch);
+            modalImg.removeEventListener('touchend', endDrag);
+        }
+
+        function startDrag(e) {
+            if (currentZoom > 1) {
+                isDragging = true;
+                dragStart.x = e.clientX - imageOffset.x;
+                dragStart.y = e.clientY - imageOffset.y;
+                e.preventDefault();
+            }
+        }
+
+        function startDragTouch(e) {
+            if (currentZoom > 1) {
+                isDragging = true;
+                dragStart.x = e.touches[0].clientX - imageOffset.x;
+                dragStart.y = e.touches[0].clientY - imageOffset.y;
+                e.preventDefault();
+            }
+        }
+
+        function drag(e) {
+            if (isDragging && currentZoom > 1) {
+                imageOffset.x = e.clientX - dragStart.x;
+                imageOffset.y = e.clientY - dragStart.y;
+                updateImageTransform();
+                e.preventDefault();
+            }
+        }
+
+        function dragTouch(e) {
+            if (isDragging && currentZoom > 1) {
+                imageOffset.x = e.touches[0].clientX - dragStart.x;
+                imageOffset.y = e.touches[0].clientY - dragStart.y;
+                updateImageTransform();
+                e.preventDefault();
+            }
+        }
+
+        function endDrag() {
+            isDragging = false;
+        }
+
+        // Fullscreen toggle
+        function toggleFullscreen() {
+            const modal = document.getElementById('imageModal');
+            if (!document.fullscreenElement) {
+                modal.requestFullscreen().catch(err => {
+                    console.log('Error attempting to enable fullscreen:', err);
+                });
+            } else {
+                document.exitFullscreen();
+            }
         }
 
         // Close modal when clicking outside
@@ -553,8 +850,33 @@
 
         // Keyboard navigation
         document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                closeModal();
+            const modal = document.getElementById('imageModal');
+            if (modal.style.display === 'block') {
+                switch(event.key) {
+                    case 'Escape':
+                        closeModal();
+                        break;
+                    case 'ArrowLeft':
+                        previousImage();
+                        break;
+                    case 'ArrowRight':
+                        nextImage();
+                        break;
+                    case '+':
+                    case '=':
+                        zoomIn();
+                        break;
+                    case '-':
+                        zoomOut();
+                        break;
+                    case '0':
+                        resetZoom();
+                        break;
+                    case 'f':
+                    case 'F':
+                        toggleFullscreen();
+                        break;
+                }
             }
         });
 

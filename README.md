@@ -8,13 +8,23 @@ A comprehensive web application for viewing and browsing all 476 images extracte
 
 ## 📚 Source Information
 
-**Document Source:** This collection contains images extracted from PDF documents related to Jeffrey Epstein's birthday book collection.
+**Document Source:** This collection contains images extracted from PDF documents related to Jeffrey Epstein's birthday book collection titled "The First Fifty Years."
 
 **Original Documents:** [Google Drive Folder - Request Documents](https://drive.google.com/drive/folders/1ZSVpXEhI7gKI0zatJdYe6QhKJ5pjUo4b)
 
 **Background Information:** [PBS NewsHour - Epstein Birthday Book Coverage](https://www.pbs.org/newshour/nation/see-epsteins-full-birthday-book-with-alleged-personal-messages-from-trump-clinton-and-others)
 
-**Note:** These documents were released by the House Oversight Committee and are part of the public record.
+### Historical Context
+
+The bound volumes, titled "The First Fifty Years," were compiled in 2003 by former Epstein girlfriend and associate Ghislaine Maxwell. The collection includes:
+
+- **Personal notes and messages** from various contributors
+- **Alleged contributors** including former President Bill Clinton, Alan Dershowitz, entrepreneur Leslie Wexner, and President Donald Trump
+- **Crude drawings and images** with sexual content or innuendo
+- **Photographs and ephemera** from Epstein's personal collection
+- **Handwritten notes** from Maxwell explaining the book's purpose
+
+**Note:** These documents were released by the House Oversight Committee and are part of the public record. The Epstein estate delivered an electronic copy to the committee in September 2025.
 
 ## 🎯 Project Overview
 
