@@ -1,0 +1,41 @@
+{
+  "name": "birthday-book-pdf-gallery",
+  "version": "1.0.0",
+  "description": "Interactive PDF image gallery with 476 images from document processing",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "dev": "python -m http.server 8000",
+    "build": "echo 'No build process needed for static site'",
+    "deploy": "echo 'Deployment handled by GitHub Actions'",
+    "test": "echo 'No tests configured'",
+    "lint": "echo 'No linting configured'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YOUR_USERNAME/PDF_Processing_Project.git"
+  },
+  "keywords": [
+    "pdf",
+    "gallery",
+    "images",
+    "interactive",
+    "web",
+    "javascript",
+    "html5",
+    "css3"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "homepage": "https://khasinogaming.com/birthdaybook",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "devDependencies": {},
+  "dependencies": {},
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
